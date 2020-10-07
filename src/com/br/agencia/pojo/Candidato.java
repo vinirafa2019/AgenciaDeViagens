@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.br.agencia.processor.constant.StatusProcessoSeletivo;
 
-public class Candidato{
+public class Candidato {
 
 	private String nomeCompleto;
 	private String cpf;
@@ -16,9 +14,15 @@ public class Candidato{
 	private String email;
 	private String idade;
 	private Empresa consulta;
-	
-	@Autowired
-	private List<Vagas> listavagas;
+	private static List<Candidato> candidatosCadastrados;	
+
+	public static List<Candidato> getCandidatosCadastrados() {
+		return candidatosCadastrados;
+	}
+
+	public static void setCandidatosCadastrados(List<Candidato> candidatosCadastrados) {
+		Candidato.candidatosCadastrados = candidatosCadastrados;
+	}
 
 	private StatusProcessoSeletivo statusProcessoSeletivo;
 
@@ -70,22 +74,17 @@ public class Candidato{
 		this.idade = idade;
 	}
 
-	public void consultarVagas() {
-			System.out.println("Consultar vagas");
-					
-			if(listavagas.isEmpty()){
-	              System.out.println("Não existem vagas");
-	            }else{
-	              System.out.println(listavagas.toString());
-	            }
+	public static void consultarVagas() {
+
+		System.out.println("Vagas disponiveis");
+		Empresa.listarVagas();
 	}
-	
-	public void candidatarVagas() {
+
+	public static void candidatarVagas(int i) {
 
 		Scanner sc = new Scanner(System.in);
 		Candidato candidato;
 		List<Candidato> listaCandidatos = new ArrayList<Candidato>();
-
 
 		int opcao = 0;
 
@@ -102,6 +101,8 @@ public class Candidato{
 				// Cria um novo objeto
 				candidato = new Candidato();
 
+				System.out.println("Informações do candidato: \n");
+				
 				System.out.print("Digite o nome completo: ");
 				candidato.setNomeCompleto(sc.nextLine());
 
@@ -117,19 +118,31 @@ public class Candidato{
 				System.out.print("Digite a RG: ");
 				candidato.setRg(sc.nextLine());
 				
-
-
-
-				//System.out.println("\n Você foi cadastrado na vaga: " + consulta.size());
-
+				// System.out.println("\n Você foi cadastrado na vaga: " + consulta.size());
+				System.out.println("Digite o carga da Vaga que quer se candidatar");
+				opcao = Integer.parseInt(sc.nextLine());
+				if (opcao % 4 == 0) {
+					List<Vagas> v = Empresa.getListavagasdiponiveis();
+					System.out.println("vagas candidatadas: " + v.get(0) + " " + StatusProcessoSeletivo.APROVADO);
+				}System.out.println("Cadastrado!");
 				// Guarda o objeto pessoa em uma lista.
 				listaCandidatos.add(candidato);
 			}
 		} while (opcao != 0);
-
+		candidatosCadastrados=listaCandidatos;
 	}
 
+	public static void acompanharProcesso(StatusProcessoSeletivo estado) {
 
+		if (estado == StatusProcessoSeletivo.EM_PROCESSO) {
+			System.out.println("Curriculo ainda em analise...");
+		} else if (estado == StatusProcessoSeletivo.APROVADO) {
+			System.out.println("Parabens você foi aprovado,favor encaminhar os documentos");
+		} else if (estado == StatusProcessoSeletivo.REPROVADO) {
+			System.out.println("Desculpe mas infelizmente você não foi aprovado");
+		}
+
+	}
 
 	@Override
 	public String toString() {
@@ -139,11 +152,9 @@ public class Candidato{
 		m += ", Email: " + email;
 		m += ", Idade: " + idade;
 		m += ", RG: " + rg;
-		m += ", Vagas: " + consulta;
+
 
 		return m;
 	}
 
 }
-
-

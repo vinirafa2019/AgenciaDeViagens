@@ -8,7 +8,17 @@ import com.br.agencia.processor.constant.StatusProcessoSeletivo;
 
 public class Empresa {
 
-	public static List<Vagas> cadastrarVagas() {
+	private static List<Vagas> listavagasdiponiveis;
+
+	
+	public static List<Vagas> getListavagasdiponiveis() {
+		return listavagasdiponiveis;
+	}
+	public static void setListavagasdiponiveis(List<Vagas> listavagasdiponiveis) {
+		Empresa.listavagasdiponiveis = listavagasdiponiveis;
+	}
+	
+	public static void cadastrarVagas() {
 
 		List<Vagas> listaVagas = new ArrayList<Vagas>();
 			Scanner sc = new Scanner(System.in);
@@ -18,7 +28,6 @@ public class Empresa {
 			do {
 				System.out.println("## Empresa escolha uma das opções abaixo ##");
 				System.out.println("Opção 1 - Cadastre a vaga");
-				System.out.println("Opção 2 - Listar vagas");
 				System.out.println("Opção 0 - Sair do programa");
 				System.out.println("_______________________");
 
@@ -28,7 +37,8 @@ public class Empresa {
 				if (opcao == 1) {
 					// Cria um novo objeto
 					vaga = new Vagas();
-
+					System.out.println("Informações da vaga: \n");
+					
 					System.out.print("Informe a descricao da vaga: ");
 					vaga.setDescricao(sc.nextLine());
 
@@ -42,27 +52,27 @@ public class Empresa {
 					
 
 					System.out.println("Vaga cadastrada \n");
-
+					System.out.println("-------------------");
 					// Guarda o objeto pessoa em uma lista.
 					listaVagas.add(vaga);
-				}else if (opcao == 2) {
-										
-					if (listaVagas.isEmpty()) {
-						System.out.println("Não existem vagas cadastradas, pressione o 0 para sair");
-						sc.nextLine();
-					} else {
-						System.out.println("Lista de vagas: " + listaVagas.toString());
-						
-						sc.nextLine();
-					}
 				}
 			} while (opcao != 0);
-		return listaVagas;
+			
+			  listavagasdiponiveis=listaVagas;
+	}
+	public static void listarVagas() {
+	
+			if (listavagasdiponiveis.isEmpty()) {
+				System.out.println("Não existem vagas cadastradas, pressione o 0 para sair");
+			} else {
+				System.out.println("Lista de vagas: " + listavagasdiponiveis.toString());
+			}
 	}
 	
-	public static Candidato consultarCandidato(Candidato candidato){				
-		System.out.println("Lista de Candidatos"+candidato.toString());
-		return (Candidato) candidato;
+	public static void consultarCandidato(){
+		
+		System.out.println("Lista de Candidatos"+Candidato.getCandidatosCadastrados());
+		
 
 	}
 	public static void gerenciaProcessos(Candidato candidato) {

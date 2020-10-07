@@ -16,7 +16,7 @@ public class Funcionario {
 			int opcao = 0;
 
 			do {
-				System.out.println("## Empresa escolha uma das opções abaixo ##");
+				System.out.println("## Funcionario escolha uma das opções abaixo ##");
 				System.out.println("Opção 1 - Cadastre a vaga");
 				System.out.println("Opção 2 - Listar vagas");
 				System.out.println("Opção 0 - Sair do programa");

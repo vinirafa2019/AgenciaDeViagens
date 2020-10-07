@@ -9,18 +9,15 @@ import com.br.agencia.processor.constant.StatusProcessoSeletivo;
 public class ProcessoSeletivo {
 
 	public static void main(String[] args) throws IOException {
-		 Candidato candidato= new Candidato();
+	
+		Empresa.cadastrarVagas();
 		
-		 Empresa.cadastrarVagas();
+		Candidato.consultarVagas();
+		Candidato.candidatarVagas(0);
+		Candidato.acompanharProcesso(StatusProcessoSeletivo.APROVADO);
 		
-		System.out.println("Tela Usuario: ");
-		candidato.consultarVagas();
-		candidato.candidatarVagas();
-		candidato.setStatusProcessoSeletivo(StatusProcessoSeletivo.APROVADO);
-		
-		System.out.println("Tela Empresa: ");
-		Empresa.consultarCandidato(candidato); 
-		Empresa.gerenciaProcessos(candidato);
+		Empresa.consultarCandidato(); 
+//		Empresa.gerenciaProcessos();
 		
 		//System.out.println("Tela Funcionario: ");
 		//Funcionario.cadastrarVagas();
